@@ -34,240 +34,228 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Image.network(
-            "https://celes.club/uploads/posts/2022-09/thumbs/1662061006_4-celes-club-p-peristie-oblaka-instagram-6.jpg",
+            "https://gazettengr.com/wp-content/uploads/sunny-weather.jpg",
             fit: BoxFit.cover,
             height: h,
           ),
           SafeArea(
+              top: true,
+              right: true,
+              left: true,
+              minimum: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Column(
-            children: [
-              const Text(
-                "Weather App",
-                style: TextStyle(fontSize: 22),
-              ),
-              CupertinoSearchTextField(
-                controller: textEditingController,
-                backgroundColor: Colors.white,
-                onSuffixTap: () {
-                  setState(() {
-                    ApiString.city = "Surat";
-                    textEditingController.clear();
-                  });
-                },
-                onChanged: (val) {
-                  setState(() {
-                    ApiString.city = val;
-                    HttpService().getWeatherResponse();
-                    print(ApiString.city);
-                  });
-                },
-              ),
-              Expanded(
-                child: FutureBuilder(
-                  future: HttpService().getWeatherResponse(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      temp = snapshot.data['main']['temp'] - 273;
-                      pressure = snapshot.data['main']['pressure'];
-                      humidity = snapshot.data['main']['humidity'];
-                      longitude = snapshot.data['coord']['lon'];
-                      latitude = snapshot.data['coord']['lat'];
-                      speed = snapshot.data['wind']['speed'];
-                      // var weatherIcon =
-                      //     weatherStatus.getWeatherIcon(snapshot.data!.cod);
-                      visibility = snapshot.data['visibility'];
-                      ApiString.city = snapshot.data['name'];
-                      ApiString.des =
-                          snapshot.data['weather'][0]['description'];
-                      return SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Text(
-                              ApiString.city,
-                              style: const TextStyle(fontSize: 28),
-                            ),
-                            Text(
-                              DateFormat.yMMMMd().format(now),
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            Container(
-                              height: 200,
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              decoration: BoxDecoration(
-                                color: Colors.black38,
-                                borderRadius: BorderRadius.circular(30),
+                children: [
+                  SizedBox(
+                    height: h / 80,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      DateFormat.yMMMMd().format(now),
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  SizedBox(
+                    height: h / 80,
+                  ),
+                  CupertinoSearchTextField(
+                    controller: textEditingController,
+                    backgroundColor: Colors.white,
+                    onSuffixTap: () {
+                      setState(() {
+                        ApiString.city = "Surat";
+                        textEditingController.clear();
+                      });
+                    },
+                    onChanged: (val) {
+                      setState(() {
+                        ApiString.city = val;
+                        HttpService().getWeatherResponse();
+                        print(ApiString.city);
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: FutureBuilder(
+                      future: HttpService().getWeatherResponse(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          temp = snapshot.data['main']['temp'] - 273;
+                          humidity = snapshot.data['main']['humidity'];
+                          longitude = snapshot.data['coord']['lon'];
+                          latitude = snapshot.data['coord']['lat'];
+                          speed = snapshot.data['wind']['speed'];
+                          // var weatherIcon =
+                          //     weatherStatus.getWeatherIcon(snapshot.data!.cod);
+                          visibility = snapshot.data['visibility'];
+                          ApiString.city = snapshot.data['name'];
+                          ApiString.des =
+                              snapshot.data['weather'][0]['description'];
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: h / 10,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "Lat\n$latitude",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                  Text(
-                                    weatherStatus.getWeatherIcon(snapshot.data!['cod']),
-                                    style: const TextStyle(fontSize: 60),
-                                  ),
-                                  Text(
-                                    "Lon\n$longitude",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ],
+                              Text(
+                                ApiString.city,
+                                style: const TextStyle(fontSize: 28),
                               ),
-                            ),
-                            Text(
-                              "${temp.toInt()} °C",
-                              style: const TextStyle(fontSize: 40),
-                            ),
-                            Text(
-                              ApiString.des,
-                              style: const TextStyle(fontSize: 25),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 110,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black38,
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          const Text(
-                                            "Speed",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 23),
-                                          ),
-                                          Text(
-                                            "$speed",
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                const TextStyle(fontSize: 25),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      height: 110,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black38,
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          const Text(
-                                            "Pressure",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 23),
-                                          ),
-                                          Text(
-                                            "$pressure",
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                const TextStyle(fontSize: 25),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              Text(
+                                "${temp.toInt()} °C",
+                                style: const TextStyle(fontSize: 40),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 110,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black38,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Column(
+                              Text(
+                                ApiString.des,
+                                style: const TextStyle(fontSize: 25),
+                              ),
+                              Spacer(),
+                              const Align(
+                                alignment: Alignment(-1, 0),
+                                child: Text(
+                                  "Details",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                              const Divider(
+                                thickness: 2,
+                                color: Colors.white,
+                              ),
+                              Container(
+                                height: 140,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        const Text(
-                                          "Humidity",
+                                        Text(
+                                          "Lat\n${snapshot.data['coord']['lat']}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 23),
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                        /*Text(
+                                          weatherStatus.getWeatherIcon(
+                                              snapshot.data!['cod']),
+                                          style: const TextStyle(fontSize: 60),
+                                        ),*/
+                                        Text(
+                                          weatherStatus.getWeatherIcon(
+                                              800),
+                                          style: const TextStyle(fontSize: 50),
                                         ),
                                         Text(
-                                          "$humidity",
+                                          "Lon\n$longitude",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 25),
+                                          style: const TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 110,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black38,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Column(
+                                    Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        const Text(
-                                          "Visibility",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 23),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            const Text(
+                                              "Speed",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                              "$speed",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          "$visibility",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(fontSize: 25),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            const Text(
+                                              "Pressure",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                              "${snapshot.data['main']['pressure']}",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            const Text(
+                                              "Humidity",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                              "$humidity",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            const Text(
+                                              "Visibility",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                              "$visibility",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ))
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                  alignment: const Alignment(-1, 0),
+                                  child: Text(
+                                    weatherStatus.getMessage(
+                                      temp.toInt(),
+                                    ),style:
+                                  const TextStyle(fontSize: 16),
+                                  ),)
+                            ],
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ))
         ],
       ),
     );

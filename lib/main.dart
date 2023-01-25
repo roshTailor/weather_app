@@ -12,6 +12,7 @@ void main() {
         textTheme: const TextTheme(
           bodyText2: TextStyle(
             fontFamily: "Poppins",
+            color: Colors.white
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -28,6 +29,8 @@ void main() {
         ),
         brightness: Brightness.light,
       ),
+      debugShowCheckedModeBanner: false,
     ),
   );
+
 }

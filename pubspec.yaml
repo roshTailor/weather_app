@@ -39,6 +39,8 @@ dependencies:
   http: ^0.13.5
   intl: ^0.18.0
   get: ^4.3.8
+  async: ^2.8.1
+  vector_math: ^2.1.0
 
 dev_dependencies:
   flutter_test:
